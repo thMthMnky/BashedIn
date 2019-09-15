@@ -33,10 +33,12 @@ mBash="/data/data/com.termux/files/usr/bin/bash"
 #                   		#
 #################################
 function create_logs(){
-	> gLog
-	> eLog
-	> cLog
-	> mLog
+	if []; then
+		> gLog
+		> eLog
+		> cLog
+		> mLog
+	fi
 }
 
 # Purpose: Display pause prompt
@@ -118,7 +120,6 @@ function klasp(){
 
 # Purpose - Get info about your operating system
 function os_info(){
-	clear
 	local ts="@$(date +'%Y-%m-%d %T')"
 	write_header "*** System information ***" "*"
 	pause "Press [Enter] key to continue..."
@@ -126,7 +127,6 @@ function os_info(){
 
 # Purpose - Get info about host such as dns, IP, and hostname
 function host_info(){
-	clear
 	local ts="@$(date +'%Y-%m-%d %T')"
 	local dnsips=$(sed -e '/^$/d' /etc/resolv.conf | awk '{if (tolower($1)=="nameserver") print $2}')
 	write_header "*** Hostname and DNS Information ***" "*"
@@ -140,7 +140,6 @@ function host_info(){
 
 # Purpose - Network inferface and routing info
 function net_info(){
-	clear
 	local ts="@$(date +'%Y-%m-%d %T')"
 	devices=$(netstat -i | cut -d" " -f1 | egrep -v "^Kernel|Iface|lo")
 	write_header "*** Network information ***" "*"
@@ -161,7 +160,6 @@ function net_info(){
 # Purpose - Display a list of users currently logged on
 #           display a list of receltly loggged in users
 function user_info(){
-	clear
 	local ts="@$(date +'%Y-%m-%d %T')"
 	local cmd="$1"
 	case "$cmd" in
@@ -175,7 +173,6 @@ function user_info(){
 
 # Purpose - Display used and free memory info
 function mem_info(){
-	clear
 	write_header "*** Free and Used Memory ***" "*"
 	free -m
 
@@ -196,7 +193,6 @@ function mem_info(){
 
 # Create a new Project and begin a new session with it
 function create_project(){
-	clear
 	local ts="@$(date +'%Y-%m-%d %T')"
 	local new_project_name
 	code
@@ -233,7 +229,6 @@ function create_project(){
 # Begin a new session in project '$1' and
 # checkout to branch '$2'
 function start_session() {
-	clear
 	local projects=("")
 	local ts="@$(date +'%Y-%m-%d %T')"
 	code
@@ -270,7 +265,6 @@ function start_session() {
 
 # End session
 function end_session(){
-	clear
 	local ts="@$(date +'%Y-%m-%d %T')"
 	code
 	if [ -n "${ls | grep ^$1}" ]; then
@@ -293,16 +287,16 @@ function router(){
         local userInput
         read -p "Enter your choice [ 0 - 9 ]: " userInput
         case "${userInput}" in
-                0) create_project;;
-		1) start_session;;
-		2) switch_session;;
-		3) end_session;;
-		4) os_info;;
-		5) mem_info;;
-		6) host_info;;
-		7) net_info;;
-		8) usr_info;;
-		9) clear; write_header "Bye!"; exit 0;;
+                0) clear; create_project;;
+		1) clear; start_session;;
+		2) clear; switch_session;;
+		3) clear; end_session;;
+		4) clear; os_info;;
+		5) clear; mem_info;;
+		6) clear; host_info;;
+		7) clear; net_info;;
+		8) clear; usr_info;;
+		9) clear; echo "Bye!"; exit 0;;
 		*)
 			echo "Please enter a decimal digit"
 			pause
@@ -334,6 +328,7 @@ function main_menu(){
 #			#
 #########################
 while true; do
+	clear
 	set_aliases
  	main_menu
  	router
