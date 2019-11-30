@@ -47,9 +47,9 @@ function pause(){
 	read -p "$message" readEnterKey
 }
 
-function stop(){
-
-}
+#function stop(){
+#
+#}
 # Display header
 function write_header(){
 	local ts="@$(date +'%Y-%m-%d %T')"
